@@ -1,0 +1,29 @@
+.table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.table th {
+  padding: 80px;
+  color: #aeaeae;
+  vertical-align: middle;
+}
+
+.table th span {
+  display: flex;
+  align-items: center;
+}
+.table th span svg{
+  margin-right: 10px;
+}
+.table th, td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+tr:nth-child(even) {background-color: #f2f2f2;}
+
+.overflow {
+  overflow-x: auto;
+}
