@@ -1,0 +1,35 @@
+.addFrom input {
+  margin-top: 10px;
+  margin-right: 10px;
+  margin-bottom: 6px;
+  padding: 5px;
+  border-radius: 0%;
+  border: 1px solid #ddd
+}
+
+.btn {
+  background: #ddd;
+  border: none;
+  padding: 6px 15px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+.btn:hover {
+  background: #044599;
+  border: none;
+  padding: 6px 15px;
+  cursor: pointer;
+  color: #fff;
+}
+
+.addFrom .form-group {
+  display: inline-block;
+}
+
+.error {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-size: 11px;
+  color: rgb(221, 109, 109);
+  display: table-footer-group;
+}

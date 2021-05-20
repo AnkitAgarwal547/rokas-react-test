@@ -1,55 +1,132 @@
-import classes from './EmployeeList.module.css'
+import { useEffect, useState, useCallback } from 'react'
 import Employee from './Employee'
-import { useEffect, useState } from 'react'
 import EmployeeTableHeader from './EmployeeTableHeader'
 import EmployeeTableFooter from './EmployeeTableFooter'
 import axios from 'axios'
 import LoadingSpinner from '../UI/LoadingSpinner'
+import Pagination from '../pagination/Pagination'
+
+import classes from './EmployeeList.module.css'
+import AddEmployeeForm from './addEmployee/AddEmployeeForm'
+
+const headers = {
+  'Content-Type': 'application/json'
+}
 
 // using url here for testing task
-// this can be managed via context api
+const apiBaseUrl = `http://localhost:8080`
 
 const EmployeeList = () => {
   const [employees, setEmployees] = useState([])
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(false)
   const [isError, setIsError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
-  const [page, setPage] = useState(1)
-  
-  const apiBaseUrl = `http://localhost:8080/employees?_page=${page}&_limit=5`
+  const [currentPage, setCurrentPage] = useState(1)
+  const [showAddEmployeeForm, setShowAddEmployeeForm] = useState(false)
+  const [totalEmployees, setTotalEmployees] = useState(0)
+  const [addEmployeeErrorMessage, setAddEmployeeErrorMessage] = useState('')
 
+  const perPage = 5
+
+  const getEmployees = useCallback(async () => {
+    setIsLoading(true)
+    try {
+      const response = await axios.get(
+        apiBaseUrl + '/employees',
+        {
+          params: {
+            _page: currentPage,
+            _limit: perPage,
+            _sort: 'id',
+            _order: 'desc'
+          }
+        },
+        { headers }
+      )
+      setEmployees(response.data)
+      setTotalEmployees(response.headers['x-total-count'])
+    } catch (error) {
+      setIsError(true)
+      setErrorMessage('Error fetching employees.')
+    }
+    setIsLoading(false)
+  }, [currentPage])
   useEffect(() => {
-    const getEmployees = async () => {
-      try {
-        const response = await axios.get(apiBaseUrl)
-        const data = response.data
-        setEmployees(data)
-        console.log(data)
-      } catch (error) {
-        console.log(error)
-        setIsError(true)
-        setErrorMessage('Error fetching employees.')
-      }
-      setIsLoading(false)
+    getEmployees()
+  }, [getEmployees])
+
+  const addNewEmployee = async employee => {
+    setIsLoading(true)
+    try {
+      // for now assuming api runs all the time and add employee each time request is sent
+      const res = await axios.post(apiBaseUrl + '/employees', employee, {
+        headers
+      })
+      console.log(res)
+      showAddEmployeeForm(false)
+    } catch (err) {
+      setAddEmployeeErrorMessage('Error adding employee')
     }
     getEmployees()
-  }, [])
+    setIsLoading(false)
+  }
 
-  const employeesTable = employees.map(employee => <Employee key={employee.id} employee={employee} />)
+  const toggleAddEmployeeHandler = () => {
+    setShowAddEmployeeForm(prevState => !prevState)
+  }
+
+  const employeeTable = (
+    <>
+      <table className={classes.table}>
+        <EmployeeTableHeader />
+        <tbody>
+          {employees.map(employee => (
+            <Employee key={employee.id} employee={employee} />
+          ))}
+        </tbody>
+        {!showAddEmployeeForm && (
+          <EmployeeTableFooter toggleEmployeeForm={toggleAddEmployeeHandler} />
+        )}
+      </table>
+      {showAddEmployeeForm && (
+        <AddEmployeeForm
+          addEmployee={addNewEmployee}
+          toggleEmployeeForm={toggleAddEmployeeHandler}
+        />
+      )}
+    </>
+  )
+
+  const paginate = number => {
+    setCurrentPage(number)
+  }
 
   const errorMessageData = isError && <p className='centered'>{errorMessage}</p>
 
+  const paginationWrapper = (
+    <Pagination
+      currentPage={currentPage}
+      totalData={totalEmployees}
+      perPage={perPage}
+      paginate={paginate}
+    />
+  )
+
   return (
     <>
-      {isLoading && <div className='centered'><LoadingSpinner /></div>}
+      {isLoading && (
+        <div className='centered'>
+          <LoadingSpinner />
+        </div>
+      )}
       {errorMessageData}
       {!isLoading && !isError && (
         <div className={classes.overflow}>
-          <table className={classes.table}>
-            <EmployeeTableHeader />
-            {employeesTable}
-            <EmployeeTableFooter />
-          </table>
+          {employeeTable}
+          <div style={{ color: 'rgb(221, 109, 109)' }}>
+            {addEmployeeErrorMessage}
+          </div>
+          {paginationWrapper}
         </div>
       )}
     </>
