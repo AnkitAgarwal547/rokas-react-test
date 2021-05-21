@@ -12,4 +12,4 @@ server.use(jsonServer.rewriter({
 server.use(router);
 server.listed(PORT, () => {
   console.log('server is running');
-});
+}); 
