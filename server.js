@@ -10,6 +10,6 @@ server.use(jsonServer.rewriter({
   '/api/*': '/$1',
 }));
 server.use(router);
-server.listed(PORT, () => {
+server.listen(PORT, () => {
   console.log('server is running');
 }); 

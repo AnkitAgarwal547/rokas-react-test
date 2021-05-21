@@ -8,13 +8,14 @@ import Pagination from '../pagination/Pagination'
 
 import classes from './EmployeeList.module.css'
 import AddEmployeeForm from './addEmployee/AddEmployeeForm'
+import { API_URL } from '../../helpers/const'
 
 const headers = {
   'Content-Type': 'application/json'
 }
 
 // using url here for testing task
-const apiBaseUrl = `http://localhost:8080`
+const apiBaseUrl = API_URL
 
 const EmployeeList = () => {
   const [employees, setEmployees] = useState([])
