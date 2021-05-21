@@ -7,7 +7,7 @@ const MainNavigation = () => {
         <ul>
           <li>
             <NavLink activeClassName={classes.active} exact to='/'>
-              counter
+              Counter
             </NavLink>
           </li>
           <li>
