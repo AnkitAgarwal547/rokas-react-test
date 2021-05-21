@@ -52,17 +52,17 @@ const AddEmployeeForm = ({ toggleEmployeeForm, addEmployee }) => {
   return (
     <form className={classes.addFrom} onSubmit={addEmployeeFormHandler}>
       <div className={classes['form-group']}>
-        <input type='text' value={name} onChange={inputNameHandler} />
+        <input type='text' value={name} onChange={inputNameHandler} placeholder='Name' />
         <br />
         <span className={classes.error}>{nameError}</span>
       </div>
       <div className={classes['form-group']}>
-        <input type='email' value={email} onChange={inputEmailHandler} />
+        <input type='email' value={email} onChange={inputEmailHandler} placeholder='Email' />
         <br />
         <span className={classes.error}>{emailError}</span>
       </div>
       <div className={classes['form-group']}>
-        <input type='text' value={position} onChange={inputPositionHandler} />
+        <input type='text' value={position} onChange={inputPositionHandler} placeholder='Position' />
         <br />
         <span className={classes.error}>{positionError}</span>
       </div>

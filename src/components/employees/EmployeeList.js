@@ -26,7 +26,7 @@ const EmployeeList = () => {
   const [showAddEmployeeForm, setShowAddEmployeeForm] = useState(false)
   const [totalEmployees, setTotalEmployees] = useState(0)
   const [addEmployeeErrorMessage, setAddEmployeeErrorMessage] = useState('')
-
+  const [successMessageData, setSuccessMessageData] = useState('')
   const perPage = 5
 
   const getEmployees = useCallback(async () => {
@@ -64,9 +64,11 @@ const EmployeeList = () => {
         headers
       })
       console.log(res)
-      showAddEmployeeForm(false)
+      setShowAddEmployeeForm(false)
+      setAddEmployeeErrorMessage('')
+      setSuccessMessageData('Employee added successfully')
     } catch (err) {
-      setAddEmployeeErrorMessage('Error adding employee')
+      // setAddEmployeeErrorMessage('Error adding employee')
     }
     getEmployees()
     setIsLoading(false)
@@ -120,6 +122,7 @@ const EmployeeList = () => {
           <LoadingSpinner />
         </div>
       )}
+      <div style={{color: 'green'}}>{successMessageData}</div>
       {errorMessageData}
       {!isLoading && !isError && (
         <div className={classes.overflow}>

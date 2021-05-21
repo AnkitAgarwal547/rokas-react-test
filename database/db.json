@@ -119,18 +119,6 @@
       "email": "jhon@jhone.com",
       "position": "jhon",
       "id": 20
-    },
-    {
-      "name": "test2",
-      "email": "test@test.com",
-      "position": "test",
-      "id": 21
-    },
-    {
-      "name": "tsets2",
-      "email": "afa@asdf.asdf",
-      "position": "asfdasf",
-      "id": 22
     }
   ]
 }
