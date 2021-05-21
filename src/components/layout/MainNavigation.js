@@ -11,7 +11,7 @@ const MainNavigation = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink activeClassName={classes.active} to='/employees'>
+            <NavLink activeClassName={classes.active} to='/employee'>
               Employees
             </NavLink>
           </li>

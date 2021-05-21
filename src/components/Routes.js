@@ -11,7 +11,7 @@ const Routes = () => {
         <Route path='/' exact>
           <Counter />
         </Route>
-        <Route path='/employees'>
+        <Route path='/employee'>
           <Employees />
         </Route>
         <Route path='*'>
